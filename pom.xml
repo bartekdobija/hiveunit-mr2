@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.inmobi.hive.test</groupId>
 	<artifactId>hiveunit-mr2</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>hiveunit-mr2</name>
 	<description>Hive Unit Testing for MR2</description>
 
