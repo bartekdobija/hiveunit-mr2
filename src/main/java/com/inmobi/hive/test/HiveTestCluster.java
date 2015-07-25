@@ -23,11 +23,11 @@ import org.apache.hive.jdbc.miniHS2.MiniHS2;
 import org.apache.hive.service.cli.HiveSQLException;
 
 /*
- * This is class is used to model a minicluster and mini hive server to be 
- * used for testing.  
+ * This is class is used to model a minicluster and mini hive server to be
+ * used for testing.
  */
 public class HiveTestCluster {
-    
+
     private FileSystem fs;
     private MiniHS2 miniHS2 = null;
     private Map<String, String> confOverlay;
@@ -35,9 +35,9 @@ public class HiveTestCluster {
 
     public void start() throws Exception {
         Configuration conf = new Configuration();
-        hiveConf = new HiveConf(conf, 
+        hiveConf = new HiveConf(conf,
                 org.apache.hadoop.hive.ql.exec.CopyTask.class);
-        miniHS2 = new MiniHS2(hiveConf, true);
+        miniHS2 = new MiniHS2.Builder().withConf(hiveConf).withMiniMR().build();
         confOverlay = new HashMap<String, String>();
         confOverlay.put(ConfVars.HIVE_SUPPORT_CONCURRENCY.varname, "false");
         confOverlay.put(MRConfig.FRAMEWORK_NAME, MRConfig.LOCAL_FRAMEWORK_NAME);
@@ -46,18 +46,18 @@ public class HiveTestCluster {
         SessionState ss = new SessionState(hiveConf);
         SessionState.start(ss);
     }
-    
+
     public FileSystem getFS() {
-        return this.fs;
+        return fs;
     }
-    
+
     public void stop() throws Exception {
         LocalFileSystem localFileSystem = FileSystem.getLocal(miniHS2.getHiveConf());
         miniHS2.stop();
         FileFilter filter = new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
-                if (pathname.isDirectory() && 
+            public boolean accept(final File pathname) {
+                if (pathname.isDirectory() &&
                         pathname.getName().startsWith("MiniMRCluster_")) {
                     return true;
                 }
@@ -71,21 +71,21 @@ public class HiveTestCluster {
             localFileSystem.delete(clusterRoot, true);
         }
     }
-    
-    public List<String> executeStatements(List<String> statements) throws HiveSQLException {
+
+    public List<String> executeStatements(final List<String> statements) throws HiveSQLException {
         List<String> results = new ArrayList<>();
         for (String statement : statements) {
             results.addAll(processStatement(statement));
         }
         return results;
     }
-    
-    private List<String> processStatement(String statement) {
+
+    private List<String> processStatement(final String statement) {
         List<String> results = new ArrayList<String>();
         String[] tokens = statement.trim().split("\\s+");
         CommandProcessor proc = null;
         try {
-            // Hive does special handling for the commands: 
+            // Hive does special handling for the commands:
             //   SET,RESET,DFS,CRYPTO,ADD,LIST,RELOAD,DELETE,COMPILE
             proc = CommandProcessorFactory.getForHiveCommand(tokens, hiveConf);
         } catch (SQLException e) {
