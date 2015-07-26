@@ -25,9 +25,9 @@ import org.apache.hive.service.cli.HiveSQLException;
  * 
  */
 public class HiveTestSuite {
-    
+
     private HiveTestCluster cluster;
-    
+
     public void createTestCluster() {
         cluster = new HiveTestCluster();
         try {
@@ -36,7 +36,7 @@ public class HiveTestSuite {
             throw new RuntimeException("Unable to start test cluster", e);
         }
     }
-    
+
     public void shutdownTestCluster() {
         if (cluster == null) {
             return;
@@ -47,15 +47,15 @@ public class HiveTestSuite {
             throw new RuntimeException("Unable to stop test cluster", e);
         }
     }
-    
+
     public List<String> executeScript(String scriptFile) {
         return executeScript(scriptFile, null, null);
     }
-    
+
     public List<String> executeScript(String scriptFile, Map<String, String> params) {
         return executeScript(scriptFile, params, null);
     }
-    
+
     public List<String> executeScript(String scriptFile, Map<String, String> params, List<String> excludes) {
         HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
         if (cluster == null) {
@@ -69,12 +69,20 @@ public class HiveTestSuite {
         }
         return results;
     }
-    
+
     public FileSystem getFS() {
         if (cluster == null) {
             return null;
         }
         return this.cluster.getFS();
+    }
+
+    /**
+     * User for debugging purposes only.
+     * @return instance of Hive test custer.
+     */
+    public HiveTestCluster getHiveTestCluster() {
+      return cluster;
     }
 
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,18 @@ public class HiveSuiteTest {
         assertEquals(2, results.size());
         assertTrue(results.contains("1950\t22\t1"));
         assertTrue(results.contains("1949\t111\t1"));
+    }
+
+    @Test
+    public void testQuotedIdentifiers() throws IOException {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("WEATHER_DATA",
+            new File("src/test/resources/files/weather.txt").getAbsolutePath());
+        List<String> results = testSuite.executeScript("src/test/resources/scripts/quoted_ids.hql", params);
+
+        assertEquals(2, results.size());
+        assertEquals("1950\t22", results.get(0));
+        assertEquals("1949\t111", results.get(1));
     }
 
 }

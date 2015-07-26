@@ -17,6 +17,7 @@ import org.apache.hadoop.hive.conf.HiveConf.ConfVars;
 import org.apache.hadoop.hive.ql.Driver;
 import org.apache.hadoop.hive.ql.processors.CommandProcessor;
 import org.apache.hadoop.hive.ql.processors.CommandProcessorFactory;
+import org.apache.hadoop.hive.ql.processors.SetProcessor;
 import org.apache.hadoop.hive.ql.session.SessionState;
 import org.apache.hadoop.mapreduce.MRConfig;
 import org.apache.hive.jdbc.miniHS2.MiniHS2;
@@ -33,10 +34,13 @@ public class HiveTestCluster {
     private Map<String, String> confOverlay;
     private HiveConf hiveConf;
 
+    public HiveTestCluster() {
+      Configuration conf = new Configuration();
+      hiveConf = new HiveConf(conf, 
+          org.apache.hadoop.hive.ql.exec.CopyTask.class);
+    }
+
     public void start() throws Exception {
-        Configuration conf = new Configuration();
-        hiveConf = new HiveConf(conf,
-                org.apache.hadoop.hive.ql.exec.CopyTask.class);
         miniHS2 = new MiniHS2.Builder().withConf(hiveConf).withMiniMR().build();
         confOverlay = new HashMap<String, String>();
         confOverlay.put(ConfVars.HIVE_SUPPORT_CONCURRENCY.varname, "false");
@@ -96,7 +100,11 @@ public class HiveTestCluster {
             proc = new Driver(hiveConf);
         }
         try {
-            proc.run(statement);
+            if (proc instanceof SetProcessor) {
+                proc.run(getSetOptions(statement));
+            } else {
+                proc.run(statement);
+            }
             if (proc instanceof org.apache.hadoop.hive.ql.Driver) {
                 ((Driver) proc).getResults(results);
             }
@@ -105,6 +113,14 @@ public class HiveTestCluster {
             throw new RuntimeException("Hive SQL exception", ex);
         }
         return results;
+    }
+
+    public String getSetOptions(String setCmd) {
+        return setCmd.substring(3).trim();
+    }
+
+    public HiveConf getHiveConf() {
+        return hiveConf;
     }
 
 }

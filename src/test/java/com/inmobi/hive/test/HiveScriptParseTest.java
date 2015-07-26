@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 
 public class HiveScriptParseTest {
-    
+
     @Test
     public void testSimpleCase() {
         String scriptFile = "src/test/resources/scripts/simple.hql";
@@ -43,7 +43,7 @@ public class HiveScriptParseTest {
         HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
         List<String> statements = hiveScript.getStatements();
         assertEquals(1, statements.size());
-        String line1 = "CREATE TABLE raw_data (   name STRING,   " + 
+        String line1 = "CREATE TABLE raw_data (   name STRING,   " +
                 "address STRING ) ROW FORMAT DELIMITED    FIELDS " +
                 "TERMINATED BY ','    LINES TERMINATED BY '\\n' " +
                 "STORED AS TEXTFILE";
@@ -62,9 +62,9 @@ public class HiveScriptParseTest {
         List<String> statements = hiveScript.getStatements();
         assertEquals(3, statements.size());
         String line1 = "ADD JAR hdfs://localhost:9000/my-lib-1.0.0.jar";
-        String line2 = "ADD JAR hdfs://localhost:9000/user/hadoop/libs" + 
+        String line2 = "ADD JAR hdfs://localhost:9000/user/hadoop/libs" +
                 "/json-serde-1.3.jar";
-        String line3 = "CREATE EXTERNAL TABLE table1 (   name STRING ) " + 
+        String line3 = "CREATE EXTERNAL TABLE table1 (   name STRING ) " +
                 "STORED AS RCFILE LOCATION '/user/hadoop/data/rc'";
         assertEquals(line1, statements.get(0));
         assertEquals(line2, statements.get(1));
@@ -81,6 +81,18 @@ public class HiveScriptParseTest {
         List<String> statements = hiveScript.getStatements();
         assertEquals(1, statements.size());
         assertEquals("SELECT COUNT(*) FROM table1", statements.get(0));
+    }
+
+    @Test
+    public void testSetLines() {
+        String scriptFile = "src/test/resources/scripts/set.hql";
+        Map<String, String> params = new HashMap<>();
+        List<String> excludes = new ArrayList<>();
+        HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
+        List<String> statements = hiveScript.getStatements();
+        assertEquals(2, statements.size());
+        assertEquals("SET hive.support.quoted.identifiers=none", statements.get(0));
+        assertEquals("set hive.exec.parallel=true", statements.get(1));
     }
 
 }
