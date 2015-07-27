@@ -69,9 +69,8 @@ public class HiveSuiteTest {
             new File("src/test/resources/files/weather.txt").getAbsolutePath());
         List<String> results = testSuite.executeScript("src/test/resources/scripts/quoted_ids.hql", params);
 
-        assertEquals(2, results.size());
+        assertEquals(1, results.size());
         assertEquals("1950\t22", results.get(0));
-        assertEquals("1949\t111", results.get(1));
     }
 
 }
