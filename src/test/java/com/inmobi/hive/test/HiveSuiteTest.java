@@ -73,4 +73,28 @@ public class HiveSuiteTest {
         assertEquals("1950\t22", results.get(0));
     }
 
+    @Test
+    public void testUnionNestedSelect() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("WEATHER_DATA",
+            new File("src/test/resources/files/weather.txt").getAbsolutePath());
+        List<String> results = testSuite.executeScript("src/test/resources/scripts/union_nested.hql", params);
+
+        assertEquals(3, results.size());
+        assertEquals("1950\t22\t1", results.get(0));
+        assertEquals("1949\t111\t1", results.get(2));
+    }
+
+    @Test
+    public void testJoinedTables() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("WEATHER_DATA",
+            new File("src/test/resources/files/weather.txt").getAbsolutePath());
+        List<String> results = testSuite.executeScript("src/test/resources/scripts/joined_tables.hql", params);
+
+        assertEquals(2, results.size());
+        assertEquals("1950\t22\t1\t1950\t22\t1", results.get(0));
+        assertEquals("1949\t111\t1\t1949\t111\t1", results.get(1));
+    }
+
 }

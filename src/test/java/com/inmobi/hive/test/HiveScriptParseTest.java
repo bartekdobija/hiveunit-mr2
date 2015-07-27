@@ -95,4 +95,32 @@ public class HiveScriptParseTest {
         assertEquals("set hive.exec.parallel=true", statements.get(1));
     }
 
+    @Test
+    public void testUnionWithNestedSelect() {
+        String scriptFile = "src/test/resources/scripts/union_nested.hql";
+        Map<String, String> params = new HashMap<>();
+        List<String> excludes = new ArrayList<>();
+
+        HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
+        List<String> statements = hiveScript.getStatements();
+        assertEquals(5, statements.size());
+        assertEquals("SELECT c.* FROM (   SELECT a.* FROM union_a a   "
+                + "UNION ALL   SELECT b.* FROM union_b b WHERE b.year NOT IN "
+                + "(SELECT year FROM union_a WHERE year = '1949') ) c",
+                statements.get(4));
+    }
+
+    @Test
+    public void testJoinedTables() {
+        String scriptFile = "src/test/resources/scripts/joined_tables.hql";
+        Map<String, String> params = new HashMap<>();
+        List<String> excludes = new ArrayList<>();
+
+        HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
+        List<String> statements = hiveScript.getStatements();
+        assertEquals(5, statements.size());
+        assertEquals("SELECT * FROM join_a a JOIN join_b b ON a.temp = b.temp",
+                statements.get(4));
+    }
+
 }
