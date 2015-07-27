@@ -20,8 +20,8 @@
   </repositories>
 
   <properties>
-    <hive.version>1.2.0</hive.version>
-    <hadoop.version>2.6.0</hadoop.version>
+    <hive.version>1.1.0-cdh5.4.2</hive.version>
+    <hadoop.version>2.6.0-cdh5.4.2</hadoop.version>
     <minihiveserver2.version>v0.7</minihiveserver2.version>
   </properties>
 
