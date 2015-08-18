@@ -96,6 +96,33 @@ public class HiveScriptParseTest {
     }
 
     @Test
+    public void testAddLines() {
+        String scriptFile = "src/test/resources/scripts/add.hql";
+        Map<String, String> params = new HashMap<>();
+        List<String> excludes = new ArrayList<>();
+        HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
+        List<String> statements = hiveScript.getStatements();
+        assertEquals(5, statements.size());
+        assertEquals("add jar /test.jar", statements.get(0));
+        assertEquals("ADD JAR /test.jar", statements.get(1));
+        assertEquals("add file /test.txt", statements.get(2));
+        assertEquals("add FILE /test.txt", statements.get(3));
+        assertEquals("add ARCHIVES /test.zip", statements.get(4));
+    }
+
+    @Test
+    public void testDfsLines() {
+        String scriptFile = "src/test/resources/scripts/dfs.hql";
+        Map<String, String> params = new HashMap<>();
+        List<String> excludes = new ArrayList<>();
+        HiveScript hiveScript = new HiveScript(scriptFile, params, excludes);
+        List<String> statements = hiveScript.getStatements();
+        assertEquals(2, statements.size());
+        assertEquals("dfs -ls", statements.get(0));
+        assertEquals("dfs -chown root:root /tmp/test.txt", statements.get(1));
+    }
+
+    @Test
     public void testUnionWithNestedSelect() {
         String scriptFile = "src/test/resources/scripts/union_nested.hql";
         Map<String, String> params = new HashMap<>();

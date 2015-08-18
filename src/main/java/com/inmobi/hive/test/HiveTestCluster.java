@@ -15,8 +15,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.hadoop.hive.conf.HiveConf.ConfVars;
 import org.apache.hadoop.hive.ql.Driver;
+import org.apache.hadoop.hive.ql.processors.AddResourceProcessor;
 import org.apache.hadoop.hive.ql.processors.CommandProcessor;
 import org.apache.hadoop.hive.ql.processors.CommandProcessorFactory;
+import org.apache.hadoop.hive.ql.processors.DfsProcessor;
 import org.apache.hadoop.hive.ql.processors.SetProcessor;
 import org.apache.hadoop.hive.ql.session.SessionState;
 import org.apache.hadoop.mapreduce.MRConfig;
@@ -32,11 +34,11 @@ public class HiveTestCluster {
     private FileSystem fs;
     private MiniHS2 miniHS2 = null;
     private Map<String, String> confOverlay;
-    private HiveConf hiveConf;
+    private final HiveConf hiveConf;
 
     public HiveTestCluster() {
       Configuration conf = new Configuration();
-      hiveConf = new HiveConf(conf, 
+      hiveConf = new HiveConf(conf,
           org.apache.hadoop.hive.ql.exec.CopyTask.class);
     }
 
@@ -100,8 +102,10 @@ public class HiveTestCluster {
             proc = new Driver(hiveConf);
         }
         try {
-            if (proc instanceof SetProcessor) {
-                proc.run(getSetOptions(statement));
+            if (proc instanceof SetProcessor
+                    || proc instanceof AddResourceProcessor
+                    || proc instanceof DfsProcessor) {
+                proc.run(trimStatement(statement, 3));
             } else {
                 proc.run(statement);
             }
@@ -115,8 +119,8 @@ public class HiveTestCluster {
         return results;
     }
 
-    public String getSetOptions(String setCmd) {
-        return setCmd.substring(3).trim();
+    public String trimStatement(final String stmt, final int chars) {
+        return stmt.substring(chars).trim();
     }
 
     public HiveConf getHiveConf() {
