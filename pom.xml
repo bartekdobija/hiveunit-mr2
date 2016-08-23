@@ -20,9 +20,29 @@
   </repositories>
 
   <properties>
-    <hive.version>1.1.0-cdh5.4.2</hive.version>
-    <hadoop.version>2.6.0-cdh5.4.2</hadoop.version>
+
+    <hive.version>1.2.1</hive.version>
+    <hive.scope>provided</hive.scope>
+
+    <hadoop.version>2.7.1</hadoop.version>
+    <hadoop.scope>provided</hadoop.scope>
+
+    <jetty.version>6.1.26</jetty.version>
+    <jetty.scope>compile</jetty.scope>
+
+    <jersey.version>1.9</jersey.version>
+    <jersey.scope>compile</jersey.scope>
+
+    <jsp.version>2.1</jsp.version>
+    <jsp.scope>compile</jsp.scope>
+
+    <tomcat.version>5.5.23</tomcat.version>
+    <tomcat.scope>compile</tomcat.scope>
+
+    <hadoop.bin>/usr/local/hadoop/bin/hadoop</hadoop.bin>
+
     <minihiveserver2.version>v0.7</minihiveserver2.version>
+
   </properties>
 
     <dependencies>
@@ -37,143 +57,152 @@
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-cli</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-common</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-contrib</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-exec</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-metastore</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-serde</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-service</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-shims</artifactId>
             <version>${hive.version}</version>
+            <scope>${hive.scope}</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
             <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-annotations</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-auth</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
             <classifier>tests</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-common</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
             <classifier>tests</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-yarn-server-tests</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
             <classifier>tests</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-hs</artifactId>
             <version>${hadoop.version}</version>
-            <scope>compile</scope>
+            <scope>${hadoop.scope}</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty</artifactId>
-            <scope>compile</scope>
-            <version>6.1.26</version>
+            <version>${jetty.version}</version>
+            <scope>${jetty.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty-util</artifactId>
-            <scope>compile</scope>
-            <version>6.1.26</version>
+            <version>${jetty.version}</version>
+            <scope>${jetty.scope}</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-core</artifactId>
-            <scope>compile</scope>
-            <version>1.9</version>
+            <version>${jersey.version}</version>
+            <scope>${jersey.scope}</scope>
+
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
-            <scope>compile</scope>
-            <version>1.9</version>
+            <version>${jersey.version}</version>
+            <scope>${jersey.scope}</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <scope>compile</scope>
-            <version>2.1</version>
+            <version>${jsp.version}</version>
+            <scope>${jsp.scope}</scope>
         </dependency>
         <dependency>
             <groupId>tomcat</groupId>
             <artifactId>jasper-runtime</artifactId>
-            <scope>compile</scope>
-            <version>5.5.23</version>
+            <version>${tomcat.version}</version>
+            <scope>${tomcat.scope}</scope>
         </dependency>
 
         <dependency>
@@ -198,6 +227,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
+                        <systemPropertyVariables>
+                            <hadoop.bin.path>${hadoop.bin}</hadoop.bin.path>
+                        </systemPropertyVariables>
                         <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
                     </configuration>
                 </plugin>
