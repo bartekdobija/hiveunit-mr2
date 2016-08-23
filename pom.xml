@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.inmobi.hive.test</groupId>
     <artifactId>hiveunit-mr2</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>hiveunit-mr2</name>
     <description>Hive Unit Testing for MR2</description>
 
@@ -41,7 +41,7 @@
 
     <hadoop.bin>/usr/local/hadoop/bin/hadoop</hadoop.bin>
 
-    <minihiveserver2.version>v0.7</minihiveserver2.version>
+    <minihiveserver2.version>b47a29f20d</minihiveserver2.version>
 
   </properties>
 
