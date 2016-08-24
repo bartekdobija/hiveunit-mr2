@@ -1,1 +1,10 @@
 language: java
+sudo: required
+
+install:
+  - sudo apt-get install wget
+
+script:
+  - sudo wget http://mirrors.whoishostingthis.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz -q -P /usr/local/
+  - sudo tar zxf /usr/local/hadoop-2.7.1.tar.gz -C /usr/local/
+  - sudo ln -s /usr/local/hadoop-2.7.1 /usr/local/hadoop
